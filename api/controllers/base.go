@@ -9,7 +9,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
-	"github.com/PixDale/simple.blog/api/models"
+	"simple.blog/api/models"
 )
 
 // Server represents the web and database server
@@ -43,7 +43,10 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	// 	}
 	// }
 	if Dbdriver == "sqlite" {
-		server.DB, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+		server.DB, err = gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
+		if err != nil {
+			fmt.Println("Error opening database")
+		}
 	}
 
 	server.DB.Debug().AutoMigrate(&models.User{}, &models.Post{}) //database migration

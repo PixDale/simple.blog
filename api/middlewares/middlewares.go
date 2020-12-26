@@ -4,8 +4,8 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/PixDale/simple.blog/api/auth"
-	"github.com/PixDale/simple.blog/api/responses"
+	"simple.blog/api/auth"
+	"simple.blog/api/responses"
 )
 
 // SetMiddlewareJSON defines the header as JSON

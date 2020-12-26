@@ -8,18 +8,16 @@ import (
 	"time"
 
 	"github.com/badoux/checkmail"
-	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 // User represents the user table in the database
 type User struct {
-	ID        uint32    `gorm:"primary_key;auto_increment" json:"id"`
-	Nickname  string    `gorm:"size:255;not null;unique" json:"nickname"`
-	Email     string    `gorm:"size:100;not null;unique" json:"email"`
-	Password  string    `gorm:"size:100;not null;" json:"password"`
-	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+	gorm.Model
+	Nickname string `gorm:"size:255;not null;unique" json:"nickname"`
+	Email    string `gorm:"size:100;not null;unique" json:"email"`
+	Password string `gorm:"size:100;not null;" json:"password"`
 }
 
 // Hash generates a hash from the password
@@ -121,20 +119,20 @@ func (u *User) FindAllUsers(db *gorm.DB) (*[]User, error) {
 }
 
 // FindUserByID returns the User with the given ID
-func (u *User) FindUserByID(db *gorm.DB, uid uint32) (*User, error) {
+func (u *User) FindUserByID(db *gorm.DB, uid uint) (*User, error) {
 	var err error
 	err = db.Debug().Model(User{}).Where("id = ?", uid).Take(&u).Error
 	if err != nil {
 		return &User{}, err
 	}
-	if gorm.IsRecordNotFoundError(err) {
+	if err == gorm.ErrRecordNotFound {
 		return &User{}, errors.New("User Not Found")
 	}
 	return u, err
 }
 
 // UpdateAUser updates the user with the given ID in the database
-func (u *User) UpdateAUser(db *gorm.DB, uid uint32) (*User, error) {
+func (u *User) UpdateAUser(db *gorm.DB, uid uint) (*User, error) {
 
 	// To hash the password
 	err := u.BeforeSave()
@@ -161,7 +159,7 @@ func (u *User) UpdateAUser(db *gorm.DB, uid uint32) (*User, error) {
 }
 
 // DeleteAUser remove the User with the given ID from the database
-func (u *User) DeleteAUser(db *gorm.DB, uid uint32) (int64, error) {
+func (u *User) DeleteAUser(db *gorm.DB, uid uint) (int64, error) {
 
 	db = db.Debug().Model(&User{}).Where("id = ?", uid).Take(&User{}).Delete(&User{})
 

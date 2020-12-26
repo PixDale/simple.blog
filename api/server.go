@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/PixDale/simple.blog/api/controllers"
-	"github.com/PixDale/simple.blog/api/seed"
 	"github.com/joho/godotenv"
+	"simple.blog/api/controllers"
+	"simple.blog/api/seed"
 )
 
 var server = controllers.Server{}

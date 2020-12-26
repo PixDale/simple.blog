@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/PixDale/simple.blog/api/responses"
+	"simple.blog/api/responses"
 )
 
 // Home is a simple response to serve the request

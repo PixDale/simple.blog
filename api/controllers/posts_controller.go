@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/PixDale/simple.blog/api/auth"
-	"github.com/PixDale/simple.blog/api/models"
-	"github.com/PixDale/simple.blog/api/responses"
-	"github.com/PixDale/simple.blog/api/utils/formaterror"
 	"github.com/gorilla/mux"
+	"simple.blog/api/auth"
+	"simple.blog/api/models"
+	"simple.blog/api/responses"
+	"simple.blog/api/utils/formaterror"
 )
 
 func (server *Server) CreatePost(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +39,7 @@ func (server *Server) CreatePost(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
-	if uid != post.AuthorID {
+	if uid != post.Author.ID {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}
@@ -110,7 +110,7 @@ func (server *Server) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// If a user attempt to update a post not belonging to him
-	if uid != post.AuthorID {
+	if uid != post.Author.ID {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
@@ -130,7 +130,7 @@ func (server *Server) UpdatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//Also check if the request user id is equal to the one gotten from token
-	if uid != postUpdate.AuthorID {
+	if uid != postUpdate.Author.ID {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}
@@ -181,7 +181,7 @@ func (server *Server) DeletePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Is the authenticated user, the owner of this post?
-	if uid != post.AuthorID {
+	if uid != post.Author.ID {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New("Unauthorized"))
 		return
 	}

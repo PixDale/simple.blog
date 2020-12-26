@@ -5,11 +5,11 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/PixDale/simple.blog/api/auth"
-	"github.com/PixDale/simple.blog/api/models"
-	"github.com/PixDale/simple.blog/api/responses"
-	"github.com/PixDale/simple.blog/api/utils/formaterror"
 	"golang.org/x/crypto/bcrypt"
+	"simple.blog/api/auth"
+	"simple.blog/api/models"
+	"simple.blog/api/responses"
+	"simple.blog/api/utils/formaterror"
 )
 
 func (server *Server) Login(w http.ResponseWriter, r *http.Request) {

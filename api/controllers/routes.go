@@ -1,6 +1,6 @@
 package controllers
 
-import "github.com/PixDale/simple.blog/api/middlewares"
+import "simple.blog/api/middlewares"
 
 func (s *Server) initializeRoutes() {
 

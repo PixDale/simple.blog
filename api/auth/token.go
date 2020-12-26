@@ -14,7 +14,7 @@ import (
 )
 
 // CreateToken returns a new token for the given id with 1 hour of expiration
-func CreateToken(userID uint32) (string, error) {
+func CreateToken(userID uint) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["authorized"] = true
 	claims["user_id"] = userID
@@ -57,7 +57,7 @@ func ExtractToken(r *http.Request) string {
 }
 
 // ExtractTokenID returns the user ID from the token in the request
-func ExtractTokenID(r *http.Request) (uint32, error) {
+func ExtractTokenID(r *http.Request) (uint, error) {
 	tokenString := ExtractToken(r)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -74,7 +74,7 @@ func ExtractTokenID(r *http.Request) (uint32, error) {
 		if err != nil {
 			return 0, err
 		}
-		return uint32(uid), nil
+		return uint(uid), nil
 	}
 	return 0, nil
 }
